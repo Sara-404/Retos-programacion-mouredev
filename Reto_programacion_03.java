@@ -1,8 +1,8 @@
 /*
  * EJERCICIO:
  * - Muestra ejemplos de creación de todas las estructuras soportadas por defecto
- *   en tu lenguaje.
- * - Utiliza operaciones de inserción, borrado, actualización y ordenación.
+ *   en tu lenguaje. HECHO
+ * - Utiliza operaciones de inserción, borrado, actualización y ordenación. HECHO
  *
  * DIFICULTAD EXTRA (opcional):
  * Crea una agenda de contactos por terminal.
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -35,6 +36,9 @@ public class Reto_programacion_03{
      * - TreeSet
      */
 
+     //agenda de contactos
+    public static HashMap<String, Integer> contactos = new HashMap<String, Integer>();
+
     public static void main(String[] args) {
         //mostrarArrayList();
         //mostrarLinkedList();
@@ -43,8 +47,140 @@ public class Reto_programacion_03{
         //mostrarTreeMap();
         //mostrarTreeSet();
 
+        //Agenda de contactos
+        String input;
+        int respuesta = 0;
+        Scanner sc = new Scanner(System.in);
+        
+        do{
+            
+            System.out.println("Selecciona una opción, escribe el número correspondiente:" +
+            "\n\t [1] Ver lista de contactos" +
+            "\n\t [2] Buscar contacto" +
+            "\n\t [3] Agregar contacto" +
+            "\n\t [4] Actualizar contacto" +
+            "\n\t [5] Borrar contacto" + 
+            "\n\t [0] Finalizar programa");
+
+            input = sc.nextLine();
+
+            try{
+                respuesta = Integer.parseInt(input);
+                if(!(respuesta >= 0 && respuesta<= 5)) System.out.println("Debe escribir un número de la lista");
+                //programa
+                else{
+                    switch(respuesta) {
+                        case 1:
+                          mostrarListaContactos(sc);
+                          break;
+                        case 2:
+                          buscarContacto(sc);
+                          break;
+                        case 3:
+                          agregarContacto(sc);
+                        break;
+                        case 4:
+                          actualizarContacto(sc);
+                        break;
+                        case 5:
+                          borrarContacto(sc);
+                        break;
+                        case 0:
+                          System.out.println("FIN DEL PROGRAMA");
+                        break;
+                      }
+                }
+                
+            }catch(NumberFormatException e){
+                System.out.println("Debe escribir el número que corresponda a la acción que quiera hacer");
+            }
+            
+
+        }while(respuesta != 0);
+
+        sc.close();
     }
 
+    public static void mostrarListaContactos(Scanner sc){
+        System.out.println("Mostrando lista de contactos: \n" + contactos);
+        System.out.println("------------------------------------------------");
+    }
+
+    public static void buscarContacto(Scanner sc){
+        System.out.println("Escribe el nombre (correctamente) del contacto que quieres buscar");
+        String nombre = sc.nextLine();
+
+        if(contactos.containsKey(nombre)) System.out.println("Teléfono de " + nombre +": " + contactos.get(nombre.toString()));
+        else System.out.println("Ese contacto no existe");
+    }
+
+    public static Integer validarTelefono(Scanner sc){
+        Integer telefono = 0;
+        boolean telefonoValido = false;
+        String input;
+
+        do{
+            try{
+                System.out.println("Escribe su teléfono");
+                input = sc.nextLine();
+                telefono = Integer.parseInt(input);
+
+                //si el teléfono tiene 9 dígitos, es válido, sino no
+                if((telefono.toString().length()) == 9) telefonoValido = true;
+                else System.out.println("El número de teléfono debe contener 9 dígitos, vuelve a escribir:");
+
+            }
+            //dará error en caso de escribir otro tipo de datos en vez de un número
+            catch(NumberFormatException e){
+                System.out.println("El número de teléfono debe ser un número y contener 9 dígitos");
+                telefono = 0;
+            }
+        }while(!telefonoValido);
+
+        return telefono;
+
+    }
+    
+    public static void borrarContacto(Scanner sc){
+        System.out.println("Escribe el nombre del contacto que deseas borrar");
+        String nombre;
+        nombre = sc.nextLine();
+        if(contactos.containsKey(nombre)) {
+            contactos.remove(nombre);
+            System.out.println("Contacto borrado");
+        }
+        else System.out.println("No existe ese contacto");
+    }
+    
+    public static void actualizarContacto(Scanner sc){
+        Integer telefono = 0;
+        String nombre;
+        
+        System.out.println("Escribe el nombre de quien deseas actualizar su teléfono");
+        nombre = sc.nextLine();
+        
+        if(contactos.containsKey(nombre)) {
+            telefono = validarTelefono(sc);
+            contactos.replace(nombre, telefono);
+            System.out.println("Contacto actualizado");
+        }
+        else System.out.println("No existe ese contacto");
+
+    }
+
+    public static void agregarContacto(Scanner sc){
+        String nombre;
+        Integer telefono = 0;
+
+        System.out.println("Escribe el nombre del nuevo contacto");
+        nombre = sc.nextLine();
+        telefono = validarTelefono(sc);
+        
+        contactos.put(nombre, telefono);
+        System.out.println("Contacto añadido");
+    }
+
+    //ejemplo TreeSet
     public static void mostrarTreeSet(){
         //TreeSet
         TreeSet<Integer> treeset = new TreeSet<Integer>();
@@ -71,6 +207,7 @@ public class Reto_programacion_03{
 
     }
 
+    //ejemplo TreeMap
     public static void mostrarTreeMap(){
         //TreeMap
         TreeMap<Integer, String> treemap = new TreeMap<Integer, String>();
@@ -95,6 +232,7 @@ public class Reto_programacion_03{
         System.out.println(treemap);
     }
 
+    //ejemplo HashSet
     public static void mostrarHashSet(){
         //HashSet
         HashSet<Integer> hashset = new HashSet<Integer>();
@@ -122,6 +260,7 @@ public class Reto_programacion_03{
         //ordenación: no se puede ordenar los elementos de un hashset
     }
 
+    //ejemplo HashMap
     public static void mostrarHashMap(){
         //HashMap
         HashMap<Integer, String> hashmap = new HashMap<Integer, String>();
@@ -147,6 +286,7 @@ public class Reto_programacion_03{
 
     }
 
+    //ejemplo LinkedList
     public static void mostrarLinkedList(){
         //LinkedList
         LinkedList <Integer> linkedlist = new LinkedList<>();
@@ -175,6 +315,7 @@ public class Reto_programacion_03{
         System.out.println(linkedlist);
     }
 
+    //ejemplo ArrayList
     public static void mostrarArrayList(){
         //ArrayList
         ArrayList<Integer> arraylist = new ArrayList<Integer>();

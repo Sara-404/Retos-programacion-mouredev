@@ -67,7 +67,6 @@ public class Reto_programacion_03{
             try{
                 respuesta = Integer.parseInt(input);
                 if(!(respuesta >= 0 && respuesta<= 5)) System.out.println("Debe escribir un número de la lista");
-                //programa
                 else{
                     switch(respuesta) {
                         case 1:
@@ -106,6 +105,7 @@ public class Reto_programacion_03{
         System.out.println("------------------------------------------------");
     }
 
+    //busca un contacto en la lista a través del nombre proporcionado por el usuario
     public static void buscarContacto(Scanner sc){
         System.out.println("Escribe el nombre (correctamente) del contacto que quieres buscar");
         String nombre = sc.nextLine();
@@ -114,6 +114,7 @@ public class Reto_programacion_03{
         else System.out.println("Ese contacto no existe");
     }
 
+    //comprueba que el teléfono sea un número y tenga 9 dígitos
     public static Integer validarTelefono(Scanner sc){
         Integer telefono = 0;
         boolean telefonoValido = false;
@@ -141,6 +142,7 @@ public class Reto_programacion_03{
 
     }
     
+    //borra un contacto a través del nombre que dé el usuario
     public static void borrarContacto(Scanner sc){
         System.out.println("Escribe el nombre del contacto que deseas borrar");
         String nombre;
@@ -152,6 +154,7 @@ public class Reto_programacion_03{
         else System.out.println("No existe ese contacto");
     }
     
+    //actualiza el teléfono de un contacto
     public static void actualizarContacto(Scanner sc){
         Integer telefono = 0;
         String nombre;
@@ -168,14 +171,19 @@ public class Reto_programacion_03{
 
     }
 
+    //agrega un nuevo contacto en la lista
     public static void agregarContacto(Scanner sc){
         String nombre;
         Integer telefono = 0;
-
-        System.out.println("Escribe el nombre del nuevo contacto");
-        nombre = sc.nextLine();
-        telefono = validarTelefono(sc);
         
+        //Esto evita que el nombre esté vacío
+        do{
+            System.out.println("Escribe el nombre del nuevo contacto");
+            nombre = sc.nextLine();
+        }while(nombre.isEmpty());
+        
+        telefono = validarTelefono(sc);
+
         contactos.put(nombre, telefono);
         System.out.println("Contacto añadido");
     }
